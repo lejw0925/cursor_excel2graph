@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据可视化工具 - 快速开始</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .btn-custom {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-custom:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <!-- 标题部分 -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold mb-4">
+                <i class="bi bi-graph-up-arrow"></i>
+                数据可视化工具
+            </h1>
+            <p class="lead">纯前端的Excel/CSV数据可视化解决方案</p>
+            <p class="text-light">无需安装，无需服务器，完全在浏览器本地运行</p>
+        </div>
+
+        <!-- 功能特点 -->
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-file-earmark-spreadsheet display-4 mb-3"></i>
+                        <h5>多格式支持</h5>
+                        <p>支持Excel (.xlsx, .xls) 和CSV文件上传，智能解析多工作表</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-bar-chart display-4 mb-3"></i>
+                        <h5>丰富图表</h5>
+                        <p>支持9种图表类型：折线图、柱状图、饼图、散点图、雷达图等</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-grid-3x3-gap display-4 mb-3"></i>
+                        <h5>灵活布局</h5>
+                        <p>多图表组合显示，支持网格、垂直、水平三种布局模式</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 快速开始 -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8">
+                <div class="card feature-card">
+                    <div class="card-body">
+                        <h4 class="card-title text-center mb-4">
+                            <i class="bi bi-rocket-takeoff"></i>
+                            快速开始
+                        </h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="bi bi-1-circle"></i> 上传数据</h6>
+                                <p class="small">点击选择文件按钮，上传您的Excel或CSV文件</p>
+                                
+                                <h6><i class="bi bi-2-circle"></i> 配置数据</h6>
+                                <p class="small">选择工作表、设置数据范围、确认表头设置</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="bi bi-3-circle"></i> 生成图表</h6>
+                                <p class="small">选择图表类型、配置X/Y轴数据、输入标题</p>
+                                
+                                <h6><i class="bi bi-4-circle"></i> 管理图表</h6>
+                                <p class="small">调整布局、下载图表、组合多个图表</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="text-center">
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <a href="index.html" class="btn btn-custom btn-lg me-3 mb-3">
+                        <i class="bi bi-play-circle"></i>
+                        开始使用工具
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <a href="sample_data.csv" class="btn btn-custom btn-lg me-3 mb-3" download>
+                        <i class="bi bi-download"></i>
+                        下载示例数据
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-custom btn-lg mb-3" onclick="showDemo()">
+                        <i class="bi bi-play-btn"></i>
+                        查看演示
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 演示说明 -->
+        <div class="row justify-content-center mt-5" id="demoSection" style="display: none;">
+            <div class="col-lg-10">
+                <div class="card feature-card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-camera-video"></i>
+                            使用演示
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>示例数据包含：</h6>
+                                <ul>
+                                    <li>月份数据（时间维度）</li>
+                                    <li>销售额、成本、利润（业务指标）</li>
+                                    <li>客户数量（规模指标）</li>
+                                    <li>满意度（质量指标）</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>推荐图表组合：</h6>
+                                <ul>
+                                    <li>折线图：展示月度趋势</li>
+                                    <li>柱状图：对比各项指标</li>
+                                    <li>饼图：分析成本构成</li>
+                                    <li>散点图：分析相关性</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <small class="text-light">
+                                💡 提示：先下载示例数据，然后在工具中上传该文件即可体验完整功能
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 技术说明 -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8 text-center">
+                <small class="text-light">
+                    <i class="bi bi-shield-check"></i>
+                    数据安全：所有数据处理完全在本地浏览器中进行，无任何网络传输
+                    <br>
+                    <i class="bi bi-laptop"></i>
+                    系统兼容：支持Windows、Mac、Linux系统的现代浏览器
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showDemo() {
+            const demoSection = document.getElementById('demoSection');
+            if (demoSection.style.display === 'none') {
+                demoSection.style.display = 'block';
+                demoSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                demoSection.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

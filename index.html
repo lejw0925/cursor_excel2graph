@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据可视化工具</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- 头部导航 -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <span class="navbar-brand">
+                    <i class="bi bi-graph-up"></i>
+                    数据可视化工具
+                </span>
+                <button class="btn btn-outline-light" id="helpBtn">
+                    <i class="bi bi-question-circle"></i> 帮助
+                </button>
+            </div>
+        </nav>
+
+        <!-- 主要内容区域 -->
+        <div class="row mt-3">
+            <!-- 左侧控制面板 -->
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="bi bi-upload"></i> 数据上传</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="fileInput" class="form-label">选择文件</label>
+                            <input type="file" class="form-control" id="fileInput" accept=".xlsx,.xls,.csv">
+                            <div class="form-text">支持 Excel (.xlsx, .xls) 和 CSV 文件</div>
+                        </div>
+                        
+                        <!-- 工作表选择 -->
+                        <div class="mb-3" id="sheetSelector" style="display: none;">
+                            <label for="sheetSelect" class="form-label">选择工作表</label>
+                            <select class="form-select" id="sheetSelect">
+                            </select>
+                        </div>
+
+                        <!-- 数据范围选择 -->
+                        <div class="mb-3" id="dataRange" style="display: none;">
+                            <label class="form-label">数据范围</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="startRow" class="form-label">开始行</label>
+                                    <input type="number" class="form-control" id="startRow" value="1" min="1">
+                                </div>
+                                <div class="col-6">
+                                    <label for="endRow" class="form-label">结束行</label>
+                                    <input type="number" class="form-control" id="endRow" value="100">
+                                </div>
+                            </div>
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" id="hasHeader" checked>
+                                <label class="form-check-label" for="hasHeader">
+                                    首行为表头
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success w-100" id="loadDataBtn" disabled>
+                            <i class="bi bi-arrow-down-circle"></i> 加载数据
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 图表配置面板 -->
+                <div class="card mt-3" id="chartConfig" style="display: none;">
+                    <div class="card-header">
+                        <h5><i class="bi bi-bar-chart"></i> 图表配置</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="chartType" class="form-label">图表类型</label>
+                            <select class="form-select" id="chartType">
+                                <option value="line">折线图</option>
+                                <option value="bar">柱状图</option>
+                                <option value="pie">饼图</option>
+                                <option value="scatter">散点图</option>
+                                <option value="radar">雷达图</option>
+                                <option value="heatmap">热力图</option>
+                                <option value="treemap">树图</option>
+                                <option value="funnel">漏斗图</option>
+                                <option value="gauge">仪表盘</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="xAxisColumn" class="form-label">X轴数据</label>
+                            <select class="form-select" id="xAxisColumn">
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="yAxisColumns" class="form-label">Y轴数据</label>
+                            <select class="form-select" id="yAxisColumns" multiple>
+                            </select>
+                            <div class="form-text">按住Ctrl键选择多列</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="chartTitle" class="form-label">图表标题</label>
+                            <input type="text" class="form-control" id="chartTitle" placeholder="输入图表标题">
+                        </div>
+
+                        <button class="btn btn-primary w-100" id="generateChartBtn">
+                            <i class="bi bi-plus-circle"></i> 生成图表
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 图表管理面板 -->
+                <div class="card mt-3" id="chartManager" style="display: none;">
+                    <div class="card-header">
+                        <h5><i class="bi bi-collection"></i> 图表管理</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="layoutType" class="form-label">布局方式</label>
+                            <select class="form-select" id="layoutType">
+                                <option value="grid">网格布局</option>
+                                <option value="stack">垂直堆叠</option>
+                                <option value="horizontal">水平排列</option>
+                            </select>
+                        </div>
+                        <div id="chartList" class="mb-3">
+                        </div>
+                        <button class="btn btn-warning w-100" id="clearAllCharts">
+                            <i class="bi bi-trash"></i> 清空所有图表
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧内容区域 -->
+            <div class="col-lg-9">
+                <!-- 数据预览区域 -->
+                <div class="card" id="dataPreview" style="display: none;">
+                    <div class="card-header">
+                        <h5><i class="bi bi-table"></i> 数据预览</h5>
+                        <small class="text-muted" id="dataInfo"></small>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive" style="max-height: 300px;">
+                            <table class="table table-sm table-striped" id="dataTable">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 图表显示区域 -->
+                <div class="mt-3" id="chartsContainer">
+                    <div class="text-center text-muted p-5" id="emptyState">
+                        <i class="bi bi-graph-up display-1"></i>
+                        <h4>开始创建图表</h4>
+                        <p>上传数据文件，选择数据列，生成精美的可交互图表</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 帮助模态框 -->
+    <div class="modal fade" id="helpModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">使用帮助</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>功能介绍</h6>
+                    <ul>
+                        <li>支持上传 Excel (.xlsx, .xls) 和 CSV 文件</li>
+                        <li>可选择特定的工作表和数据范围</li>
+                        <li>支持多种图表类型：折线图、柱状图、饼图、散点图、雷达图、热力图等</li>
+                        <li>支持多图表组合显示，可选择不同的布局方式</li>
+                        <li>所有功能均在浏览器本地运行，数据不会上传到服务器</li>
+                    </ul>
+                    
+                    <h6>使用步骤</h6>
+                    <ol>
+                        <li>点击"选择文件"上传数据文件</li>
+                        <li>选择工作表（如果是Excel文件）和数据范围</li>
+                        <li>点击"加载数据"预览数据</li>
+                        <li>在图表配置面板中选择图表类型、X轴和Y轴数据</li>
+                        <li>点击"生成图表"创建图表</li>
+                        <li>重复第4-5步可以创建多个图表</li>
+                        <li>使用图表管理面板调整布局</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
